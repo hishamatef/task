@@ -4,27 +4,16 @@ namespace Modules\SimpleForm\Entities;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Modules\SimpleForm\Traits\ActivityTrait;
 use Modules\SimpleForm\Traits\EmailTrait;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\File;
+use Modules\SimpleForm\Traits\SimpleFormTrait;
 
-class SimpleForm extends Model implements HasMedia
+class SimpleForm extends Model
 {
-    use InteractsWithMedia;
     use HasFactory;
-    use ActivityTrait;
     use EmailTrait;
+    use SimpleFormTrait;
     public $table='form';
     protected $fillable = [
-        'data01', 'data02', 'data03'
+        'first_name', 'second_name', 'family_name', 'uid'
     ];
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection('only-xlsx-please')
-            ->acceptsFile(function (File $file) {
-                return $file->mimeType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-            });
-    }
 }

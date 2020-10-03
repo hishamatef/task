@@ -15,9 +15,10 @@ class CreateFormTable extends Migration
     {
         Schema::create('form', function (Blueprint $table) {
             $table->id();
-            $table->string('data01');
-            $table->string('data02');
-            $table->string('data03');
+            $table->string('first_name')->nullable();
+            $table->string('second_name')->nullable();
+            $table->string('family_name')->nullable();
+            $table->string('uid')->nullable();
             $table->timestamps();
         });
     }

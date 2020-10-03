@@ -1,0 +1,13 @@
+{
+    "name": "SimpleForm",
+    "alias": "simpleform",
+    "description": "",
+    "keywords": [],
+    "order": 0,
+    "providers": [
+        "Modules\\SimpleForm\\Providers\\SimpleFormServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

@@ -2,6 +2,7 @@
 
 namespace Modules\SimpleForm\Http;
 
+use App\Jobs\SendMail;
 use Illuminate\Routing\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use Modules\SimpleForm\Entities\SimpleForm;
@@ -17,7 +18,6 @@ class FormServices
             if($valid_check){
                 $path = $this->uploadFile($request);
                 $this->importFile($path);
-                $this->sendEmail();
             }else{
                 info('please,upload a file');
             }
@@ -43,16 +43,10 @@ class FormServices
     }
     protected function importFile($destinationPath)
     {
-        Excel::import(new ImportFile, $destinationPath);
+        (new ImportFile)->queue($destinationPath)->chain([
+            new SendMail(),
+        ]);
     }
 
-    protected function sendEmail()
-    {
-        $accepted_count = SimpleForm::getAcceptedRecordsCount();
-        $rejected_count = SimpleForm::getRejectedRecordsCount();
-        $email_subject = 'Accepted and Rejected Records Count';
-        $email_body = 'Accepted records count is '.$accepted_count.' and Rejected Records Count is '.$rejected_count ;
-        SimpleForm::sendEmail($email_subject,$email_body,'Hisham Atef',env('MAIL_TO_EMAIL'),'truedoc 24/7','noreply@trudoc247.com');
-    }
 
 }

@@ -2,6 +2,7 @@
 
 namespace Modules\SimpleForm\Imports;
 
+use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
@@ -10,6 +11,7 @@ use Modules\SimpleForm\Entities\SimpleForm;
 
 class ImportFile implements ToModel, WithChunkReading, ShouldQueue, WithStartRow
 {
+    use Importable;
     /**
      * @return int
      */
@@ -30,11 +32,11 @@ class ImportFile implements ToModel, WithChunkReading, ShouldQueue, WithStartRow
 
     public function batchSize(): int
     {
-        return 500;
+        return 1000;
     }
 
     public function chunkSize(): int
     {
-        return 500;
+        return 1000;
     }
 }
